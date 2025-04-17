@@ -23,6 +23,18 @@ services:
       - POSTGRES_DB: destination_db
       - POSTGRES_USER: postgres
 
+    elt_script:
+      - build:
+          context: ./elt_script
+          dockerfile: Dockerfile
+        command: ["python", "elt_script.py"]
+        network:
+          - elt_network
+        depends_on:
+          - source_postgres
+          - destination_postgres
+          
+
   networks:
     elt_network:
       driver: bridge
